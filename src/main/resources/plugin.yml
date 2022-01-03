@@ -1,0 +1,8 @@
+main: com.fiyerwork.randomtp.RandomTP
+name: RandomTP
+version: ${version}
+api-version: 1.18
+commands:
+  randomtp:
+    aliases:
+      - wild
