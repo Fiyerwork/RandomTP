@@ -1,8 +1,8 @@
 package com.fiyerwork.randomtp;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +13,8 @@ public class Configuration {
     private int maxx;
     private int minz;
     private int maxz;
+
+    private String defaultWorld;
 
     private String msgTeleportSelf;
     private String msgTeleportOther;
@@ -39,10 +41,11 @@ public class Configuration {
 
     public void load() {
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-        minx = config.getInt("min.x", -10000);
-        maxx = config.getInt("max.x", 10000);
-        minz = config.getInt("min.z", -10000);
-        maxz = config.getInt("max.z", 10000);
+        defaultWorld = config.getString("default.world", Bukkit.getWorlds().get(0).getName());
+        minx = config.getInt("default.min.x", -10000);
+        maxx = config.getInt("default.max.x", 10000);
+        minz = config.getInt("default.min.z", -10000);
+        maxz = config.getInt("default.max.z", 10000);
 
         msgTeleportSelf = config.getString("messages.teleport-self", "&aTeleporting to random location.");
         msgTeleportOther = config.getString("messages.teleport-other","&aTeleporting %s to random location.");
@@ -52,10 +55,11 @@ public class Configuration {
 
     public void save() {
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-        config.set("min.x", minx);
-        config.set("max.x", maxx);
-        config.set("min.z", minz);
-        config.set("max.z", maxz);
+        config.set("default.world", defaultWorld);
+        config.set("default.min.x", minx);
+        config.set("default.max.x", maxx);
+        config.set("default.min.z", minz);
+        config.set("default.max.z", maxz);
         config.set("messages.teleport-self", msgTeleportSelf);
         config.set("messages.teleport-other", msgTeleportOther);
         config.set("messages.player-not-found", msgPlayerNotFound);
@@ -81,6 +85,10 @@ public class Configuration {
 
     public int getMaxZ() {
         return maxz;
+    }
+
+    public String getDefaultWorld() {
+        return defaultWorld;
     }
 
     public String getTeleportSelfMsg() {

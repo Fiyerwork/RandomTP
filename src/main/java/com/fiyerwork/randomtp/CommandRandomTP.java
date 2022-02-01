@@ -19,13 +19,12 @@ public class CommandRandomTP implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(cmd.getName().equalsIgnoreCase("randomtp")) {
             if(args.length == 0) { // /randomtp
-                if (!(sender instanceof Player)) {
+                if (!(sender instanceof Player player)) {
                     sender.sendMessage(RED + "Only players can execute that command.");
                 } else {
-                    Player player = (Player) sender;
                     if (player.hasPermission("randomtp.command.self") || player.hasPermission("randomtp.command.other")) {
                         player.sendMessage(RandomTP.getPluginConfig().getTeleportSelfMsg());
-                        randomTeleport(player, player.getWorld());
+                        randomTeleport(player, Bukkit.getWorld(RandomTP.getPluginConfig().getDefaultWorld()));
                     } else {
                         player.sendMessage(RandomTP.getPluginConfig().getPermissionErrorMsg());
                     }
@@ -43,7 +42,7 @@ public class CommandRandomTP implements CommandExecutor {
                         Player target = Bukkit.getPlayer(args[0]);
                         if(target != null) {
                             target.sendMessage(RandomTP.getPluginConfig().getTeleportSelfMsg());
-                            randomTeleport(target, target.getWorld());
+                            randomTeleport(target, Bukkit.getWorld(RandomTP.getPluginConfig().getDefaultWorld()));
                             sender.sendMessage(RandomTP.getPluginConfig().getTeleportOtherMsg(target.getName()));
                         } else {
                             sender.sendMessage(RandomTP.getPluginConfig().getPlayerNotFoundMsg(args[0]));
